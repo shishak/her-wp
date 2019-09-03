@@ -1,0 +1,9 @@
+.idea
+node_modules
+logs
+artifact
+vendor
+bin
+package-lock.json
+composer.lock
+/dist
