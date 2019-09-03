@@ -1,6 +1,76 @@
 {
+    "name": "xyu/heroku-wp",
+    "description": "A template for installing and running WordPress on Heroku",
+    "homepage": "https://github.com/xyu/heroku-wp",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Xiao Yu",
+            "email": "me@xyu.io",
+            "homepage": "http://xyu.io",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "ext-gd": "*",
-        "ext-memcached": "*"
+        "php": "7.*",
+
+        "WordPress/WordPress": "*",
+
+        "automattic/batcache": "dev-master",
+        "wpackagist-plugin/redis-cache": "~1",
+        "wpackagist-plugin/secure-db-connection": "~1",
+
+        "humanmade/s3-uploads": "~1",
+        "wpackagist-plugin/jetpack": "*",
+        "wpackagist-plugin/sendgrid-email-delivery-simplified": "~1",
+
+        "predis/predis": "~1.0",
+        "wp-cli/wp-cli": "^1.0"
+    },
+    "suggest": {
+        "wpackagist-plugin/cloudflare-cache-purge": "Purges cached pages on CF.",
+        "trepmal/wp-revisions-cli": "WP CLI tool for cleaning up revisions (dev-master)"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "WordPress/WordPress",
+                "version": "4.9.7",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/WordPress/WordPress/archive/4.9.7.zip"
+                }
+            }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/xyu/batcache"
+        },
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        },
+        {
+            "type": "composer",
+            "url": "https://wp-cli.org/package-index"
+        }
+    ],
+    "extra": {
+        "installer-paths": {
+            "vendor/WordPress/WordPress/wp-content/mu-plugins/{$name}/": [
+                "automattic/batcache",
+                "wpackagist-plugin/redis-cache",
+                "wpackagist-plugin/secure-db-connection"
+            ],
+            "vendor/WordPress/WordPress/wp-content/plugins/{$name}/": [ "type:wordpress-plugin" ],
+            "vendor/WordPress/WordPress/wp-content/themes/{$name}/": [ "type:wordpress-theme" ]
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "./support/app_slug_compile.sh"
+        ]
     }
 }
